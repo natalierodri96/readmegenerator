@@ -1,7 +1,7 @@
 const fs = require("fs");
 const util = require("util");
 const inquirer = require("inquirer");
-const generateMardown = require(".utils/generateMarkdown");
+const generateMarkdown = require(".utils/generateMarkdown");
 
 
 // array of questions for user
@@ -58,11 +58,25 @@ function writeToFile(fileName, data) {
     });
 }
 //function to start
-function userPrompt()
+function userPrompt() {
+    return inquirer.prompt(questions);
+};
 // function to initialize program
 function init() {
-
+userPrompt () 
+    .then(function (answer) {
+        const data = {
+            title: answer.title, 
+            description: answer.installation,
+            usage: answer.usage,
+            contribution: answer.contribution,
+            test: answer.test,
+            username: answer.username
+            email: answer.email
+        }
+        const getMarkdown = generateMarkdown(data);
+        return writeToFile("README.md", getMarkdown)
+    });
 }
-
 // function call to initialize program
 init();
